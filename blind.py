@@ -35,21 +35,21 @@ def get_answer(params):
 
 """
 Function: getUsers
-Paramaters: max_length - The maximum lenght of username to check
+Parameters: max_length - The maximum length of username to check
 Returns: doneUsers - A list of users in a database that are less than or equal to in length to the
                      given parameter
 
 Description: This function cycles through all possibilities for usernames on the target website
-             with lowercase charecters and numbers. It first checks for all possible numbers and 
-             letters as the first charecter, then only checks for substrings that have returned 
+             with lowercase characters and numbers. It first checks for all possible numbers and 
+             letters as the first character, then only checks for substrings that have returned 
              true for existing in the database.
 """
 def getUsers(max_length):
     partialUsers = []
     doneUsers = []
 
-    # loop through 1-9 and a-z and check if the first charecter returns true
-    # and the username lenght is one, it stores it in doneUsers if its length
+    # loop through 1-9 and a-z and check if the first character returns true
+    # and the username length is one, it stores it in doneUsers if its length
     # is != 1, but is still the first char of a user it  gets appended t0
     # partialUsers 
     for i in iter.chain(range(48,58), range(97, 123)):
@@ -86,7 +86,7 @@ def getUsers(max_length):
 
 """
 Function: getPasswords
-Paramaters: max_length - The maximum lenght of username to check
+Parameters: max_length - The maximum length of username to check
 Returns: doneUsers - A list of passwords in a database that are less than or equal to in length 
                      to the given parameter
 Description: This function is fundamentally the same as the getUsers function, with the only 
@@ -110,9 +110,9 @@ def getPasswords(max_length):
         if get_answer(params):
             partial.append(str(chr(i)))
 
-    # This loops through the rest of the charecters up to max_length for each
+    # This loops through the rest of the characters up to max_length for each
     # partial password in partial. it checks through all possible next
-    # charecters. If it returns true and the length is the same as the 
+    # characters. If it returns true and the length is the same as the 
     # current length, it is placed in done. If the length is greater
     # than the current, its is added to partial
     for x in range(2, max_length + 1):
